@@ -108,7 +108,7 @@ class TestGeneratedProtocols(AWRETestCase):
           # Split string into messages
           msgs = data.split("\n")
           #Turn into bitstrings
-          bits_messages = [[int(v) for v in bytes2bits(m.strip()] for m in msgs]
+          bits_messages = [[int(v) for v in bytes2bits(m.strip())] for m in msgs]
           mtx = MessageType("foo")
           msgs = [Message(m,0,mtx) for m in bits_messages]
           return msgs
