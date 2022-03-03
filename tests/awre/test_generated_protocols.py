@@ -147,3 +147,4 @@ class TestGeneratedProtocols(AWRETestCase):
         02ffee
         01ff
         03ffeedd"""
+        awreinfer(data)
