@@ -64,18 +64,11 @@ class TestGeneratedProtocols(AWRETestCase):
         for m in pg.messages:
           print("".join([str(b) for b in m.plain_bits]))
 
-        print("")
-        def access_bit(data, num):
-            base = int(num // 8)
-            shift = int(num % 8)
-            return (data[base] >> shift) & 0x1
-
-        def bytes2bits(data):
-            return [access_bit(data,i) for i in range(len(data)*8)]
-
         f=open("/content/tc1.txt")
         hx = f.read().strip()
         f.close()
+        
+        
         bs = [bytes.fromhex(l) for l in hx.split("\n")]
 
         # Convert hex string to awre style bitstring
@@ -109,22 +102,31 @@ class TestGeneratedProtocols(AWRETestCase):
                 #print("\t",i,"\t",s[i:i+8])
                 returnInts.append(int(s[i:i+8][::-1],2)) # goes 8 bits at a time to save as ints
             return bytes(returnInts[::-1]).hex()
-
+        
+        # Convert raw hex messages into bit array format awre expects
         def bytes2awreinput(data):
           # Split string into messages
           msgs = data.split("\n")
           #Turn into bitstrings
-          bits_messages = [[int(v) for v in bytes2bits(m)] for m in msgs]
+          bits_messages = [[int(v) for v in bytes2bits(m.strip()] for m in msgs]
           mtx = MessageType("foo")
           msgs = [Message(m,0,mtx) for m in bits_messages]
           return msgs
 
         for m in pg.messages:
           print(bits2bytes("".join([str(b) for b in m.plain_bits])))
-
+        
 
         for m in hx.split("\n"):
           print("\t",m,bytes2bits(bits2bytes(bytes2bits(m))))
+        
+        def awreinfer(hx):
+            msgs = bytes2awreinput(hx)
+             ff = FormatFinder(msgs)
+            ff.run()
+            mt = ff.message_types[0]
+            for t in mt:
+                print("\ttype",t)
 
         msgs = bytes2awreinput(hx)
         for m in msgs:
@@ -139,3 +141,9 @@ class TestGeneratedProtocols(AWRETestCase):
         mt = ff.message_types[0]
         for t in mt:
           print("type",t)
+        
+        
+        data = """01ff
+        02ffee
+        01ff
+        03ffeedd"""
