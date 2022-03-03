@@ -122,7 +122,7 @@ class TestGeneratedProtocols(AWRETestCase):
         
         def awreinfer(hx):
             msgs = bytes2awreinput(hx)
-             ff = FormatFinder(msgs)
+            ff = FormatFinder(msgs)
             ff.run()
             mt = ff.message_types[0]
             for t in mt:
