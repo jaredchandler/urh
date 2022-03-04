@@ -129,7 +129,7 @@ class TestGeneratedProtocols(AWRETestCase):
             ff.run()
             mt = ff.message_types[0]
             for t in mt:
-                print("\ttype",t)
+                print("\ttype",t.name,t.start,t.end,"(",t,")")
             print("")
 
         #msgs = bytes2awreinput(hx)
