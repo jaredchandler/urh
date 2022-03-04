@@ -51,12 +51,12 @@ class TestGeneratedProtocols(AWRETestCase):
                                preambles_by_mt={mb.message_type: "10" * 8},
                                participants=[alice, broadcast])
 
-        for i in range(300):
-            data_bits = 16 if i % 2 == 0 else 32
-            source = pg.participants[i % 2]
-            destination = pg.participants[(i + 1) % 2]
-            pg.generate_message(data="1010" * (data_bits // 4), source=source, destination=destination)
-            print("i",i)
+        #for i in range(300):
+        #    data_bits = 16 if i % 2 == 0 else 32
+        #    source = pg.participants[i % 2]
+        #    destination = pg.participants[(i + 1) % 2]
+        #    pg.generate_message(data="1010" * (data_bits // 4), source=source, destination=destination)
+        #    print("i",i)
 
         #self.save_protocol("without_preamble", pg)
         mtx = MessageType("foo")
@@ -113,34 +113,38 @@ class TestGeneratedProtocols(AWRETestCase):
           msgs = [Message(m,0,mtx) for m in bits_messages]
           return msgs
 
-        for m in pg.messages:
-          print(bits2bytes("".join([str(b) for b in m.plain_bits])))
+        #for m in pg.messages:
+        #  print(bits2bytes("".join([str(b) for b in m.plain_bits])))
         
 
-        for m in hx.split("\n"):
-          print("\t",m,bytes2bits(bits2bytes(bytes2bits(m))))
+        #for m in hx.split("\n"):
+        #  print("\t",m,bytes2bits(bits2bytes(bytes2bits(m))))
         
         def awreinfer(hx):
+            print("Input")
+            print(hx)
+            print("Infers")
             msgs = bytes2awreinput(hx)
             ff = FormatFinder(msgs)
             ff.run()
             mt = ff.message_types[0]
             for t in mt:
                 print("\ttype",t)
+            print("")
 
-        msgs = bytes2awreinput(hx)
-        for m in msgs:
-          print("x",str(m.plain_bits))
+        #msgs = bytes2awreinput(hx)
+        #for m in msgs:
+        #  print("x",str(m.plain_bits))
         #self.clear_message_types(pg.messages)
-        ff = FormatFinder(msgs)
+        #ff = FormatFinder(msgs)
         #ff.known_participant_addresses.clear()
 
-        ff.run()
+        #ff.run()
         #self.assertEqual(len(ff.message_types), 1)
 
-        mt = ff.message_types[0]
-        for t in mt:
-          print("type",t)
+        #mt = ff.message_types[0]
+        #for t in mt:
+        #  print("type",t)
         
         
         data = """01ff
@@ -148,3 +152,5 @@ class TestGeneratedProtocols(AWRETestCase):
         01ff
         03ffeedd"""
         awreinfer(data)
+        
+        awreinfer(hx)
