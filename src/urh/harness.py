@@ -10,9 +10,9 @@ from urh.signalprocessing.MessageType import MessageType
 from urh.util import util
 
 
-f=open("/content/tc1.txt")
-hx = f.read().strip()
-f.close()
+import sys
+
+hx = sys.stdin.read().strip()
 
 
 bs = [bytes.fromhex(l) for l in hx.split("\n")]
