@@ -74,14 +74,16 @@ def awreinfer(hx):
     ff = FormatFinder(msgs)
     ff.run()
     mt = ff.message_types[0]
+    print("HARNESSSTART")
     for t in mt:
         print("\ttype",t.name,t.start,t.end,"(",t,")")
+    print("HARNESSEND")
     print("")
 
-data = """01ff
-02ffee
-01ff
-03ffeedd"""
-awreinfer(data)
+# data = """01ff
+# 02ffee
+# 01ff
+# 03ffeedd"""
+# awreinfer(data)
 
 awreinfer(hx)
