@@ -75,9 +75,26 @@ def awreinfer(hx):
     ff.run()
     mt = ff.message_types[0]
     print("HARNESSSTART")
+    bounds = []
     for t in mt:
+        bounds+=[t.start,t.end]
         print("\ttype",t.name,t.start,t.end,"(",t,")")
     print("HARNESSEND")
+    idxs = list(set(bounds))
+    print("\tBounds:",idxs)
+    def inject(m,i,idxs):
+      if i in idxs:
+        return " " + m
+      else:
+        return m
+    print("HARNESSSTART")
+    for m in hx.split("\n"):
+      l = bytes2bits(m)
+      k = "".join([inject(v,i,idxs) for i,v in enumerate(l)]).strip()
+      #print("\t",bytes2bits(m))
+      print("".join(k))
+    print("HARNESSEND")
+
     print("")
 
 # data = """01ff
